@@ -1,6 +1,6 @@
 # PSU Monitor
 
-A Python desktop GUI for controlling and monitoring an **OWON single-channel DC bench power supply** (P4305 and similar) over USB Serial (SCPI protocol).
+A Python desktop GUI for controlling and monitoring a **single-channel DC bench power supply** over USB Serial (SCPI protocol).
 
 ![PSU Monitor screenshot placeholder](docs/screenshot.png)
 
@@ -12,7 +12,7 @@ A Python desktop GUI for controlling and monitoring an **OWON single-channel DC 
 - **Smart port detection**
   - Manual port selection with CH340 highlighted
   - Plug/unplug detection wizard
-  - `*IDN?` validation to confirm OWON identity
+  - `*IDN?` validation and device identity saved for future auto-connect
   - Auto-connect to last known device on startup
 - **Soft-bounds current monitoring** — configurable min/max with debounce, non-modal amber warning banner
 - **Data logging** — tab-separated CSV with ISO timestamps, flushed every row (configurable)
@@ -68,7 +68,7 @@ uv run psu-monitor
 
 1. **Manual** — Select the port from the dropdown (CH340 ports are marked with ★) and click **Connect**.
 2. **Plug/Unplug** — Click **Plug/Unplug Detect**, follow the prompts to unplug then re-plug the USB cable. The port is identified automatically.
-3. **Identify Device** — Select a port and click **Identify Device** to send `*IDN?` and confirm the device is an OWON PSU. The device identity is saved for future auto-connect.
+3. **Identify Device** — Select a port and click **Identify Device** to send `*IDN?` and confirm the device responds correctly. The device identity is saved for future auto-connect.
 
 ### Controls
 
@@ -110,7 +110,7 @@ The file is flushed on every row by default (configurable in the settings panel)
 | Default line ending | LF (`\n`) |
 | Timeout | 1 s per command |
 
-The SCPI commands are documented in `owon-programming-manual.txt`. The key polling command is `MEAS:ALL:INFO?` which returns all measurements and fault status in a single round-trip.
+The key polling command is `MEAS:ALL:INFO?` which returns all measurements and fault status in a single round-trip. Refer to your supply's programming manual for the full SCPI command set.
 
 ## Project layout
 

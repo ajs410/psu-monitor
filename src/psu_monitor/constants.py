@@ -2,7 +2,7 @@
 
 APP_NAME = "PSU Monitor"
 APP_VERSION = "0.1.0"
-APP_ORG = "OWON"
+APP_ORG = "PSUMonitor"
 
 # ── Status bar ─────────────────────────────────────────────────────────────
 MSG_CONNECTED = "Connected to {port} — {model}  SN: {serial}"
@@ -17,7 +17,7 @@ MSG_MALFORMED_SKIP = "Malformed response skipped: {raw!r}"
 
 # ── IDN ────────────────────────────────────────────────────────────────────
 MSG_IDN_OK = "Identified: {idn}"
-MSG_IDN_NOT_OWON = "Response does not start with 'OWON': {idn!r}"
+MSG_IDN_UNRECOGNIZED = "Unrecognized IDN response: {idn!r}"
 MSG_IDN_TIMEOUT = "No IDN response on {port}"
 MSG_IDN_ERROR = "IDN error on {port}: {err}"
 
@@ -105,8 +105,8 @@ DLG_DETECT_CANCEL = "Cancel"
 
 # ── IDN dialog ─────────────────────────────────────────────────────────────
 DLG_IDN_TITLE = "Identify Device"
-DLG_IDN_NOT_OWON = (
-    "The response from {port} does not look like an OWON device:\n\n"
+DLG_IDN_UNRECOGNIZED = (
+    "The IDN response from {port} was unexpected:\n\n"
     "  {idn}\n\n"
     "Connect anyway?"
 )

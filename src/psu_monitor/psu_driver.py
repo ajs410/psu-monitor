@@ -1,4 +1,4 @@
-"""SCPI command abstractions for the OWON single-channel DC power supply.
+"""SCPI command abstractions for a single-channel DC power supply.
 
 All methods must be called exclusively from the SerialWorker thread.
 """

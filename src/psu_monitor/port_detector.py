@@ -9,7 +9,7 @@ import serial.tools.list_ports as lp
 
 log = logging.getLogger(__name__)
 
-# OWON PSU uses a CH340 USB-to-Serial chip
+# Target device uses a CH340 USB-to-Serial chip
 CH340_VID = 0x1A86
 CH340_PID = 0x7523
 CH340_DESC_FRAGMENT = "CH340"

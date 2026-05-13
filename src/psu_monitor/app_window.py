@@ -40,7 +40,7 @@ from .constants import (
     DLG_DETECT_CANCEL,
     DLG_DETECT_MISMATCH,
     DLG_DETECT_TITLE,
-    DLG_IDN_NOT_OWON,
+    DLG_IDN_UNRECOGNIZED,
     DLG_IDN_TITLE,
     DLG_LOG_FILTER,
     DLG_PLUG_MSG,
@@ -95,7 +95,7 @@ from .widgets.warning_panel import WarningPanel
 
 log = logging.getLogger(__name__)
 
-# Maximum voltage/current for the OWON P4305 (conservative upper bounds for spinboxes)
+# Conservative upper bounds for setpoint spinboxes — adjust if your supply exceeds these
 MAX_VOLTAGE = 43.0
 MAX_CURRENT = 5.0
 
@@ -517,23 +517,21 @@ class MainWindow(QMainWindow):
             QMessageBox.warning(self, DLG_IDN_TITLE, f"No response from {port}")
             return
 
-        is_owon = idn.upper().startswith("OWON")
         self._status_bar.showMessage(f"IDN: {idn}")
 
-        if is_owon:
-            # Parse OWON,<model>,<serial>,FV:X.XX.XX
-            parts = idn.split(",")
-            model = parts[1].strip() if len(parts) > 1 else "?"
-            serial_num = parts[2].strip() if len(parts) > 2 else "?"
+        # Parse standard SCPI IDN: <manufacturer>,<model>,<serial>,<firmware>
+        parts = idn.split(",")
+        model = parts[1].strip() if len(parts) > 1 else "?"
+        serial_num = parts[2].strip() if len(parts) > 2 else "?"
+        looks_valid = len(parts) >= 3
 
-            # Save known device to config
+        if looks_valid:
             self._config.known_device = {
                 "model": model,
                 "idn_serial_number": serial_num,
                 "last_port": port,
             }
             self._config.save()
-
             ans = QMessageBox.information(
                 self,
                 DLG_IDN_TITLE,
@@ -546,7 +544,7 @@ class MainWindow(QMainWindow):
             ans = QMessageBox.warning(
                 self,
                 DLG_IDN_TITLE,
-                DLG_IDN_NOT_OWON.format(port=port, idn=idn),
+                DLG_IDN_UNRECOGNIZED.format(port=port, idn=idn),
                 QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.Cancel,
                 QMessageBox.StandardButton.Cancel,
             )
@@ -583,9 +581,7 @@ class MainWindow(QMainWindow):
                     d = PSUDriver(probe_ser, line_ending=self._current_line_ending())
                     idn = d.idn()
                     d.close()
-                    idn_match = idn.upper().startswith("OWON") and (
-                        not serial_num or serial_num in idn
-                    )
+                    idn_match = not serial_num or serial_num in idn
                     if idn_match:
                         QTimer.singleShot(
                             0,
@@ -715,7 +711,7 @@ class MainWindow(QMainWindow):
             MSG_CONNECTED.format(port=self._current_port or "?", model=model, serial=serial_num)
         )
         # Auto-save known device on first successful IDN
-        if idn.upper().startswith("OWON") and not self._config.known_device:
+        if len(idn.split(",")) >= 3 and not self._config.known_device:
             self._config.known_device = {
                 "model": model,
                 "idn_serial_number": serial_num,

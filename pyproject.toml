@@ -1,7 +1,7 @@
 [project]
 name = "psu-monitor"
 version = "0.1.0"
-description = "OWON single-channel DC bench power supply controller and monitor"
+description = "SCPI bench power supply controller and monitor with real-time plotting"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }

@@ -112,6 +112,8 @@ The file is flushed on every row by default (configurable in the settings panel)
 
 The key polling command is `MEAS:ALL:INFO?` which returns all measurements and fault status in a single round-trip. Refer to your supply's programming manual for the full SCPI command set.
 
+> **Note:** A copy of the programming manual used during development is included in `docs/`. Treat it as a starting point — several details (field delimiters, response formats) had to be verified experimentally and differ from what the manual describes.
+
 ## Project layout
 
 ```

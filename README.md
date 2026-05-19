@@ -16,7 +16,6 @@ A Python desktop GUI for controlling and monitoring a **single-channel DC bench 
   - Auto-connect to last known device on startup
 - **Soft-bounds current monitoring** — configurable min/max with debounce, non-modal amber warning banner
 - **Data logging** — tab-separated CSV with ISO timestamps, flushed every row (configurable)
-- **Persistent config** — window geometry, port, poll rate, line endings, chart window, and bounds all saved across sessions
 
 ## Requirements
 
@@ -28,10 +27,6 @@ A Python desktop GUI for controlling and monitoring a **single-channel DC bench 
 | pyserial | 3.5 |
 | numpy | 1.26 |
 | platformdirs | 4.2 |
-
-> **Windows users:** Install the CH340 driver from the chip manufacturer before connecting the PSU.  
-> Download: <https://www.wch-ic.com/downloads/CH341SER_EXE.html>  
-> The device will appear as `USB-SERIAL CH340 (COMx)` in Device Manager.
 
 ## Installation
 
